@@ -16,11 +16,11 @@ public static class TextureGenerator
     }
 
     // Create a texture out of a height map
-    public static Texture2D TextureFromHeightMap(float[,] heightMap)
+    public static Texture2D TextureFromHeightMap(HeightMap heightMap)
     {
         // get the width and height of the noisemap
-        int width = heightMap.GetLength(0);
-        int height = heightMap.GetLength(1);
+        int width = heightMap.values.GetLength(0);
+        int height = heightMap.values.GetLength(1);
 
         // create a colour array
         Color[] colourMap = new Color[width * height];
@@ -30,7 +30,7 @@ public static class TextureGenerator
             for (int x = 0; x < width; x++)
             {
                 // get the index of the colour map and set it to a colour between black and white
-                colourMap[y * width + x] = Color.Lerp(Color.black, Color.white, heightMap[x, y]);
+                colourMap[y * width + x] = Color.Lerp(Color.black, Color.white, Mathf.InverseLerp(heightMap.minValue, heightMap.maxValue, heightMap.values[x, y]));
             }
         }
 
